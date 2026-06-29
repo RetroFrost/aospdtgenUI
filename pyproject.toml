@@ -4,16 +4,17 @@
 #
 
 [tool.poetry]
-name = "aospdtgen"
+name = "aospdtgenUI"
 version = "1.2.1"
-description = "Create an Android device tree from a device dump"
-authors = ["Sebastiano Barezzi <seba@sebaubuntu.dev>"]
+description = "Create an Android device tree from a device dump with GUI and Dual Support"
+authors = ["Sebastiano Barezzi <seba@sebaubuntu.dev>", "RetroFrost"]
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/sebaubuntu-python/aospdtgen"
+repository = "https://github.com/RetroFrost/aospdtgenUI"
 
 [tool.poetry.scripts]
 aospdtgen = 'aospdtgen.main:main'
+aospdtgenUI = 'aospdtgen.main:main'
 
 [tool.poetry.dependencies]
 python = "^3.9"

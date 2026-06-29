@@ -106,7 +106,7 @@ class AospDtGenGui:
         import requests
         from aospdtgen import __version__
         try:
-            response = requests.get("https://api.github.com/repos/sebaubuntu-python/aospdtgen/releases/latest")
+            response = requests.get("https://api.github.com/repos/RetroFrost/aospdtgenUI/releases/latest")
             if response.status_code == 200:
                 latest_version = response.json()["name"]
                 if latest_version != __version__:
@@ -114,7 +114,7 @@ class AospDtGenGui:
                         # Logic to update could be complex depending on how it's installed (pip vs git)
                         # For now, we'll just point them to the repo or try a pip install
                         import subprocess
-                        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "aospdtgen"])
+                        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "aospdtgenUI"])
                         messagebox.showinfo("Update", "Update successful! Please restart the application.")
                 else:
                     messagebox.showinfo("Update", "You are already on the latest version.")
