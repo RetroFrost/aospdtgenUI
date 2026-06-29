@@ -25,9 +25,15 @@ from aospdtgen.utils.format_props import dump_partition_build_prop
 class DeviceTree:
     """Class representing an Android device tree."""
 
-    def __init__(self, path: Path, no_proprietary_files: bool = False):
+    def __init__(
+        self,
+        path: Path,
+        no_proprietary_files: bool = False,
+        dual_support: bool = False,
+    ):
         """Given a path to a dumpyara dump path, generate a device tree by parsing it."""
         self.path = path
+        self.dual_support = dual_support
 
         LOGI("Figuring out partitions scheme")
         self.partitions = Partitions(self.path)
@@ -180,6 +186,7 @@ class DeviceTree:
             boot_configuration=self.boot_configuration,
             comment_prefix=comment_prefix,
             device_info=self.device_info,
+            dual_support=self.dual_support,
             fstab=self.fstab,
             proprietary_files_list=self.proprietary_files_list,
             rootdir_bin_files=self.rootdir_bin_files,
