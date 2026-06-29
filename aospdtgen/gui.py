@@ -5,6 +5,7 @@
 
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
+import sys
 import threading
 import logging
 from pathlib import Path
@@ -57,6 +58,13 @@ class AospDtGenGui:
         self.dual_support_var = tk.BooleanVar(value=True)
         tk.Checkbutton(options_frame, text="Dual ROM/Recovery support", variable=self.dual_support_var).grid(row=1, column=0, sticky="w")
 
+        tk.Label(options_frame, text="OTA URL:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
+        self.ota_url_var = tk.StringVar()
+        tk.Entry(options_frame, textvariable=self.ota_url_var, width=50).grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        # Update button
+        tk.Button(options_frame, text="Check for Tool Updates", command=self.check_for_updates).grid(row=3, column=0, columnspan=2, padx=5, pady=5, sticky="w")
+
         # Run button
         self.run_button = tk.Button(main_frame, text="Generate Device Tree", command=self.run_generation, bg="#4CAF50", fg="white", font=("Arial", 12, "bold"), pady=10)
         self.run_button.grid(row=3, column=0, columnspan=3, pady=20, sticky="ew")
@@ -94,6 +102,27 @@ class AospDtGenGui:
         if directory:
             self.output_path_var.set(directory)
 
+    def check_for_updates(self):
+        import requests
+        from aospdtgen import __version__
+        try:
+            response = requests.get("https://api.github.com/repos/sebaubuntu-python/aospdtgen/releases/latest")
+            if response.status_code == 200:
+                latest_version = response.json()["name"]
+                if latest_version != __version__:
+                    if messagebox.askyesno("Update Available", f"A new version ({latest_version}) is available. Your version is {__version__}. Do you want to update?"):
+                        # Logic to update could be complex depending on how it's installed (pip vs git)
+                        # For now, we'll just point them to the repo or try a pip install
+                        import subprocess
+                        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "aospdtgen"])
+                        messagebox.showinfo("Update", "Update successful! Please restart the application.")
+                else:
+                    messagebox.showinfo("Update", "You are already on the latest version.")
+            else:
+                messagebox.showerror("Update Error", "Failed to check for updates.")
+        except Exception as e:
+            messagebox.showerror("Update Error", f"An error occurred: {str(e)}")
+
     def run_generation(self):
         dump_path = self.dump_path_var.get()
         output_path = self.output_path_var.get()
@@ -113,6 +142,7 @@ class AospDtGenGui:
                 dump_path,
                 no_proprietary_files=self.no_proprietary_var.get(),
                 dual_support=self.dual_support_var.get(),
+                ota_url=self.ota_url_var.get(),
             )
             dt.dump_to_folder(output_path)
             dt.cleanup()

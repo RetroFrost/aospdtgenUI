@@ -30,10 +30,12 @@ class DeviceTree:
         path: Path,
         no_proprietary_files: bool = False,
         dual_support: bool = False,
+        ota_url: Optional[str] = None,
     ):
         """Given a path to a dumpyara dump path, generate a device tree by parsing it."""
         self.path = path
         self.dual_support = dual_support
+        self.ota_url = ota_url
 
         LOGI("Figuring out partitions scheme")
         self.partitions = Partitions(self.path)
@@ -187,6 +189,7 @@ class DeviceTree:
             comment_prefix=comment_prefix,
             device_info=self.device_info,
             dual_support=self.dual_support,
+            ota_url=self.ota_url,
             fstab=self.fstab,
             proprietary_files_list=self.proprietary_files_list,
             rootdir_bin_files=self.rootdir_bin_files,

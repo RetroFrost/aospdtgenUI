@@ -36,6 +36,10 @@ def main():
         help="Enable simultaneous ROM and Custom Recovery support",
     )
     parser.add_argument(
+        "--ota-url",
+        help="OTA URL for the device",
+    )
+    parser.add_argument(
         "--gui",
         action="store_true",
         help="Launch the GUI",
@@ -54,6 +58,7 @@ def main():
         args.dump_path,
         no_proprietary_files=args.no_proprietary_files,
         dual_support=args.dual_support,
+        ota_url=args.ota_url,
     )
     dump.dump_to_folder(args.output)
     dump.cleanup()
