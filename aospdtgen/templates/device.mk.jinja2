@@ -85,6 +85,12 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_CHARACTERISTICS := {{ device_info.product_characteristics }}
 
 {% endif %}
+{% if dual_support -%}
+# Recovery
+PRODUCT_PACKAGES += \
+    librecovery_updater_generic
+{%- endif %}
+
 # Rootdir
 PRODUCT_PACKAGES += \{{ '\n' }}
 {%- for file in rootdir_bin_files %}

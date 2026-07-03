@@ -150,6 +150,15 @@ TARGET_{{ partition.model.name|upper }}_PROP += $(DEVICE_PATH)/{{ partition.mode
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/{{ fstab.fstab.name }}
+{%- if dual_support %}
+
+# TWRP Configuration
+TW_THEME := portrait_hdpi
+TW_EXTRA_LANGUAGES := true
+TW_SCREEN_BLANK_ON_BOOT := true
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_USE_TOOLBOX := true
+{%- endif %}
 {% if boot_configuration.dtbo and not device_info.device_is_ab %}
 BOARD_INCLUDE_RECOVERY_DTBO := true
 {% endif %}
